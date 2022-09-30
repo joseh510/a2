@@ -1,0 +1,392 @@
+I used the command Professor Bill provided to remove the bots from the tweet data files. 
+
+1) Find the top 10 users who replied the most to other users (downloaded_tweets_extend_original_nolf.csv)
+
+cut -f 2  downloaded_tweets_extend_original_nolf2_NOBOT.tsv | sort -n | uniq -c | sort -n | tail -50
+
+    141 1290232189615894531
+    158 813314931147816960
+    159 1229752606714728454
+    174 42836999
+    249 1219232377605644289
+    254 1231514832479948802
+    274 1495480590572961792
+    274 163018653
+    299 18831926
+    375 1891490382
+
+2) Find the top 10 users who got the most replies from other users (downloaded_tweets_extend_original_nolf.csv)
+
+
+cut -f 6  downloaded_tweets_extend_original_nolf2_NOBOT.tsv | sort -n | uniq -c | sort -n | tail -50
+
+      7 15801906
+      7 467726691
+      7 878284831
+      8 1268223690480615424
+      8 1387010761994682371
+      8 254515782
+      8 2615581908
+      8 938494109844729856
+      9 26217297
+      9 2809959174
+     10 18831926
+     10 48624704
+     10 95091601
+     11 1462548977367359490
+     12 1120633726478823425
+     12 19739126
+     12 21525682
+     13 1108565574
+     14 1238370241169616897
+     28 29447428
+     46 3453306553
+
+3) Find the top 10 users who retweeted the most other tweets (downloaded_tweets_extend_nolf.csv)
+
+
+cut -f 2  downloaded_tweets_extend_nolf2_NOBOT.tsv | sort -n | uniq -c | sort -n | tail -50
+
+
+   1397 1060440219097423872
+   1539 711608180535640064
+   1592 1028022611324747776
+   1662 870244616003403781
+   1687 832019161454817280
+   1695 77726331
+   1738 29447428
+   2115 578601744
+   2498 302984766
+   2600 45379403
+
+5) Find the 30 hashtags used most frequently overall for anything (downloaded_tweets_extend_nolf.csv)
+
+     
+Used cut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q5_hashtags.tsv
+To cut the hashtag column, convert all hashtags to lower case and split commas into a new line
+
+Then deleted quotes from Q5_hashtags.tsv in vi using :g/“/s///g
+
+Then used sort Q5_hashtags.tsv | uniq -c | sort -n | tail -31 
+
+This gave the 30 hashtags used most frequently overall for anything. 
+
+    256 onpoli
+    257 cdnpoli
+    260 boycottrussia
+    263 russiasanctions
+    266 ottawa
+    274 putinwarcriminal
+    280 เจ้าแก้มก้อน
+    285 genocide
+    295 partygate
+    302 pmqs
+    308 stopputinnow
+    328 covidisairborne
+    342 bcpoli
+    351 kyiv
+    358 mariupol
+    383 ableg
+    384 auspol
+    423 putin
+    429 breaking
+    448 covid
+    475 russian
+    479 omicron
+    536 putinhitler
+    794 standwithukraine
+    895 fbpe
+    897 followbackfriday
+   1137 russia
+   1314 longcovid
+   1924 covid19
+   2895 ukraine
+
+
+6) Find the 30 hashtags that got retweeted the most (downloaded_tweets_extend_nolf.csv)
+
+grep "type=retweeted" downloaded_tweets_extend_nolf2_NOBOT.tsv | cut -f 4 | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > hashtags_only.tsv
+
+In vi removed all quotes with :g/“/s////g
+
+Then sort hashtags_only.tsv | uniq -c | sort -n | tail -31 to sort and count top 30 hashtags that got retweeted the most. 
+
+
+    114 uk
+    115 nato
+    116 ukrainerussiawar
+    118 insiders
+    119 anonymous
+    121 โอห์มไง
+    123 cdnpoli
+    124 england
+    125 covidisairborne
+    128 kharkiv
+    182 ableg
+    182 partygate
+    198 pmqs
+    220 ukrainian
+    239 fluke_natouch
+    243 ba2
+    246 putin
+    247 standwithukraine
+    274 เจ้าแก้มก้อน
+    289 mariupol
+    319 covid
+    329 kyiv
+    355 omicron
+    368 auspol
+    412 russian
+    425 breaking
+   1053 russia
+   1151 longcovid
+   1334 covid19
+   2563 ukraine
+
+
+7) Find the 30 hashtags that got replied the most (downloaded_tweets_extend_nolf.csv)
+
+grep "replied_to" downloaded_tweets_extend_nolf2_NOBOT.tsv | cut -f 4 | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q7_hashtags.tsv
+
+In vi used :%S/“//g to remove all quotes
+
+Then used this command to get the 30 hashtags that got replied the most
+
+sort Q7_hashtags.tsv | uniq -c | sort -n | tail -30
+
+
+
+     55 omicron
+     58 maskup
+     58 ontario
+     61 n95
+     62 cdnpoli
+     72 canada
+     76 putin
+     84 climatecrisis
+     85 apartheid
+     87 covidisairborne
+     92 votefordout
+     93 ukraine
+     99 longcovid
+    101 onpoli
+    106 boycottatp
+    107 nevervoteconservative
+    121 genocide
+    122 covid19bc
+    127 bced
+    142 ottawa
+    178 bcpoli
+    191 putinwarcriminal
+    207 boycottrussia
+    211 russiasanctions
+    216 stopputinnow
+    280 covid19
+    319 standwithukraine
+    429 putinhitler
+    876 followbackfriday
+    883 fbpe
+
+
+
+8) Find the 30 hashtags that got quoted the most (downloaded_tweets_extend_nolf.csv)
+
+Used cut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q8_hashtags.tsv
+
+In vi used command :v/“/d to delete any line not containing quotes
+
+Then used sort Q8_hashtags.tsv | uniq -c | sort -n | tail -30 
+
+
+
+     98 actorslife"
+     98 "cathrynhartt
+     98 kyiv"
+    105 bced"
+    108 fluke_natouch"
+    108 longcovid"
+    108 omicron"
+    109 england"
+    110 cdnpoli"
+    117 covid19ab"
+    122 bcpoli"
+    133 "putin
+    135 "longcovid
+    138 standwithukraine"
+    146 russian"
+    146 "เจ้าแก้มก้อน
+    147 "standwithukraine
+    160 onpoli"
+    162 "ableg
+    168 "russian
+    174 boycottrussia"
+    219 covid19"
+    229 "putinhitler
+    278 russia"
+    355 "russia
+    403 "covid19
+    632 "ukraine
+    685 ukraine"
+    859 followbackfriday"
+    887 "fbpe
+
+
+
+Script started on 2022-09-30 01:57:20-04:00
+]0;jose@sjsu:~/A2[jose@sjsu A2]$ has[Kh[Ksh[K[K[K[Kbruh[K[K[K[Klscut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q8_hashtags.tsv[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[59Psort Q8_hashtags.tsv | uniq -c | sort -n | tail -30[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q8_hashtags.tsv[C[1P_hashtags.tsv5_hashtags.tsv[C[C[C[C[C[C[C[C[C[C[C[C[C
+]0;jose@sjsu:~/A2[jose@sjsu A2]$ cut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q5_hashtags.tsv[K[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kvi Q5_hashtags.tsv 
+[?2004h[?1049h[22;0;0t[?1h=[?2004h[1;56r[?12h[?12l[27m[23m[29m[m[H[2J[?25l[56;1H"Q5_hashtags.tsv" 93484L, 860978C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;1Hhashtags
+awesomepeopleontwitter
+[103m"[mjournalism
+npr[103m"[m
+
+buddhism
+buddhism
+obgyntwitter
+busymom[13;1Hhistory
+covid19
+busymom
+bodybreak
+longcovid
+[103m"[mimmunizeunder5s
+covidisntover[103m"[m
+thankyoudonwinslow
+
+covid19
+
+longcovid
+
+
+[103m"[mbbcnews
+longcovid[103m"[m
+liar
+
+covid19
+she
+liar
+
+
+localelectionsmatter
+[103m"[mteamclots
+microclots[103m"
+"[myoga
+busymom[103m"
+"[mchives
+authenticchinesefood[103m"
+"[mindoorbiking
+exercise
+happybody
+happymind[103m"[m
+
+mybigfatgreekwedding
+mybigfatgreekwedding
+[103m"[mba2
+ba2121[103m"[m
+history
+[103m"[mlunch
+momslife[103m"
+"[myoga[56;187H1,1[11CTop[1;1H[?25h[27m[23m[29m[m[H[2J[?25l[1;1Hhashtags
+awesomepeopleontwitter
+[30m[103m"[mjournalism
+npr[30m[103m"[m
+
+buddhism
+buddhism
+obgyntwitter
+busymom[13;1Hhistory
+covid19
+busymom
+bodybreak
+longcovid
+[30m[103m"[mimmunizeunder5s
+covidisntover[30m[103m"[m
+thankyoudonwinslow
+
+covid19
+
+longcovid
+
+
+[30m[103m"[mbbcnews
+longcovid[30m[103m"[m
+liar
+
+covid19
+she
+liar
+
+
+localelectionsmatter
+[30m[103m"[mteamclots
+microclots[30m[103m"
+"[myoga
+busymom[30m[103m"
+"[mchives
+authenticchinesefood[30m[103m"
+"[mindoorbiking
+exercise
+happybody
+happymind[30m[103m"[m
+
+mybigfatgreekwedding
+mybigfatgreekwedding
+[30m[103m"[mba2
+ba2121[30m[103m"[m
+history
+[30m[103m"[mlunch
+momslife[30m[103m"
+"[myoga[56;187H1,1[11CTop"Q5_hashtags.tsv" 93484L, 860978C[1;1H[?25h[?25l[56;177H:[1;1H[56;1H[K[56;1H:[?2004h[?25hg[?25l[?25h/[?25l[?25h"[?25l[?25h/[?25l[?25hs[?25l[?25h/[?25l[?25h/[?25l[?25h/[?25l[?25hg[?25l[?25h[?25l30984 substitutions on 30984 lines[55;1H[1;1H李永钦[1;7H[K[2;1H텐[2;3H[K[3;1Hเตนล์[3;5H[K[4;1Hテン
+tenlee
+wayv[6;5H[K[7;1Hnct[7;4H[K[8;1Hsuperm[8;7H[K[9;1Hseriousbacon
+boxxmusic
+
+10velyday_with_ten
+ten_bday2022
+happytenday[15;1H[K[16;1H[K[17;1H[K[18;1Hten_bday2022[18;13H[K[19;1H[K[20;2Henlee[20;7H[K[21;1Hten_bday2022[22;1H[K[23;1Htenlee_1001
+ten_bday2022
+10velyday_with_ten
+
+ten_bday2022[28;1H[K[29;1H[K[31;1H[K[32;1H[K[33;1Hไอกะทิยู
+ไอกะทิยู
+
+ไอกะทิยู[36;7H[K[37;1Hlucas[37;6H[K[38;1Hgoodmorningtenlee[39;1H[K[40;1Htenlee_1001
+ten[41;4H[K[42;1Htenlee[42;7H[K[43;1Hlysnbubble_ten
+tenchittaphon
+ten[45;4H[K[46;1Hเตนล์[46;5H[K[47;1H李永钦
+텐[48;3H[K[49;1Hテン[49;5H[K[50;1Hไอกะทิยู[51;1H[K[52;1Hten[52;4H[K[53;1H텐[53;3H[K[54;1Hsmtown_live
+smtreattenbetter[56;187H93484,1[7CBot[56;187H[K[56;187H93484,1[7CBot[55;1H[?25h[?25l[56;177H:[55;1H[56;1H[K[56;1H:[?2004h[?25hw[?25l[?25hq[?25l[?25h[?25l[?2004l"Q5_hashtags.tsv" 93484L, 829994C written
+[?2004l[?1l>[?25h[?1049l[23;0;0t]0;jose@sjsu:~/A2[jose@sjsu A2]$ vi Q5_hashtags.tsv [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Klower[K[K[K[K[Kcut[K[K[Ksort q[KQ5_hashtags.tsv | uniq-[K[K[K[Ki[Kniq -c | sort-[K -n [K | tail -31
+    256 onpoli
+    257 cdnpoli
+    260 boycottrussia
+    263 russiasanctions
+    266 ottawa
+    274 putinwarcriminal
+    280 เจ้าแก้มก้อน
+    285 genocide
+    295 partygate
+    302 pmqs
+    308 stopputinnow
+    328 covidisairborne
+    342 bcpoli
+    351 kyiv
+    358 mariupol
+    383 ableg
+    384 auspol
+    423 putin
+    429 breaking
+    448 covid
+    475 russian
+    479 omicron
+    536 putinhitler
+    794 standwithukraine
+    895 fbpe
+    897 followbackfriday
+   1137 russia
+   1314 longcovid
+   1924 covid19
+   2895 ukraine
+  20647 
+]0;jose@sjsu:~/A2[jose@sjsu A2]$ sort Q5_hashtags.tsv | uniq -c | sort -n | tail -31[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[32Pvi Q5_hashtags.tsv [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccut -f 4 downloaded_tweets_extend_nolf2_NOBOT.tsv | tr '[:upper:]' '[:lower:]' | tr ',' '\n' > Q5_hashtags.ts[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cvi Q5_hashtags.tsv [K[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csort Q5_hashtags.tsv | uniq -c | sort -n | tail -31[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ksort Q5_hashtags.tsv | uniq -c | sort -n | tail -31[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ksort Q5_hashtags.tsv | uniq -c | sort -n | tail -31[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kvi[K[Kexit
+
+Script done on 2022-09-30 02:12:48-04:00
